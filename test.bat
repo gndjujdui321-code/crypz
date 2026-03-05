@@ -1,50 +1,48 @@
 @echo off
-:: Устанавливаем кодировку для русских букв в консоли
+:: Set code page to UTF-8 just in case
 chcp 65001 >nul
-:: Устанавливаем шрифт Consolas или Lucida Console в консоли для корректного отображения
-:: chcp 65001 переводит консоль в UTF-8
 
-echo === Проверка UAC ===
+echo === Checking UAC ===
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA
 if %errorlevel%==0 (
-    echo Ключ EnableLUA найден
+    echo EnableLUA key found.
 ) else (
-    echo Ключ EnableLUA не найден
+    echo EnableLUA key NOT found.
 )
 
 echo.
-echo === Проверка Defender ===
+echo === Checking Windows Defender ===
 reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware
 if %errorlevel%==0 (
-    echo DisableAntiSpyware найден
+    echo DisableAntiSpyware key found.
 ) else (
-    echo DisableAntiSpyware не найден
+    echo DisableAntiSpyware key NOT found.
 )
 
 reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v DisableRealtimeMonitoring
 if %errorlevel%==0 (
-    echo DisableRealtimeMonitoring найден
+    echo DisableRealtimeMonitoring key found.
 ) else (
-    echo DisableRealtimeMonitoring не найден
+    echo DisableRealtimeMonitoring key NOT found.
 )
 
 echo.
-echo === Проверка процессов Windows Defender ===
+echo === Checking Windows Defender Processes ===
 tasklist /FI "IMAGENAME eq MsMpEng.exe"
 if %errorlevel%==0 (
-    echo Процесс MsMpEng.exe найден
+    echo MsMpEng.exe process found.
 ) else (
-    echo Процесс MsMpEng.exe не найден
+    echo MsMpEng.exe process NOT found.
 )
 
 tasklist /FI "IMAGENAME eq SecurityHealthSystray.exe"
 if %errorlevel%==0 (
-    echo Процесс SecurityHealthSystray.exe найден
+    echo SecurityHealthSystray.exe process found.
 ) else (
-    echo Процесс SecurityHealthSystray.exe не найден
+    echo SecurityHealthSystray.exe process NOT found.
 )
 
 echo.
-echo Скрипт завершил выполнение.
-echo Нажмите любую клавишу, чтобы выйти...
+echo Script finished.
+echo Press any key to exit...
 pause >nul
