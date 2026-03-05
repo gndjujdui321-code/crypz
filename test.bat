@@ -1,7 +1,8 @@
 @echo off
-::
-:: SIQI Security Disabler (только для демонстрации, безопасно)
-:: Здесь мы будем показывать статус каждой команды
+:: Устанавливаем кодировку для русских букв в консоли
+chcp 65001 >nul
+:: Устанавливаем шрифт Consolas или Lucida Console в консоли для корректного отображения
+:: chcp 65001 переводит консоль в UTF-8
 
 echo === Проверка UAC ===
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA
