@@ -1,48 +1,46 @@
 @echo off
-:: Set code page to UTF-8 just in case
-chcp 65001 >nul
+:: English version batch file - check UAC, Defender keys, and processes
 
 echo === Checking UAC ===
-reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA
+reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA >nul 2>&1
 if %errorlevel%==0 (
-    echo EnableLUA key found.
+    echo EnableLUA key FOUND ✅
 ) else (
-    echo EnableLUA key NOT found.
+    echo EnableLUA key NOT found ❌
 )
 
 echo.
 echo === Checking Windows Defender ===
-reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware >nul 2>&1
 if %errorlevel%==0 (
-    echo DisableAntiSpyware key found.
+    echo DisableAntiSpyware key FOUND ✅
 ) else (
-    echo DisableAntiSpyware key NOT found.
+    echo DisableAntiSpyware key NOT found ❌
 )
 
-reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v DisableRealtimeMonitoring
+reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v DisableRealtimeMonitoring >nul 2>&1
 if %errorlevel%==0 (
-    echo DisableRealtimeMonitoring key found.
+    echo DisableRealtimeMonitoring key FOUND ✅
 ) else (
-    echo DisableRealtimeMonitoring key NOT found.
+    echo DisableRealtimeMonitoring key NOT found ❌
 )
 
 echo.
 echo === Checking Windows Defender Processes ===
-tasklist /FI "IMAGENAME eq MsMpEng.exe"
+tasklist /FI "IMAGENAME eq MsMpEng.exe" | findstr /I "MsMpEng.exe" >nul
 if %errorlevel%==0 (
-    echo MsMpEng.exe process found.
+    echo MsMpEng.exe process FOUND ✅
 ) else (
-    echo MsMpEng.exe process NOT found.
+    echo MsMpEng.exe process NOT found ❌
 )
 
-tasklist /FI "IMAGENAME eq SecurityHealthSystray.exe"
+tasklist /FI "IMAGENAME eq SecurityHealthSystray.exe" | findstr /I "SecurityHealthSystray.exe" >nul
 if %errorlevel%==0 (
-    echo SecurityHealthSystray.exe process found.
+    echo SecurityHealthSystray.exe process FOUND ✅
 ) else (
-    echo SecurityHealthSystray.exe process NOT found.
+    echo SecurityHealthSystray.exe process NOT found ❌
 )
 
 echo.
-echo Script finished.
-echo Press any key to exit...
+echo Script finished. Press any key to exit...
 pause >nul
